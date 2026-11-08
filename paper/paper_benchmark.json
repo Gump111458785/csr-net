@@ -1,0 +1,48 @@
+{
+  "paper": {
+    "title": "Contrastive Semantic Rectification and Confidence Calibration for Robust Multi-Domain Text Classification",
+    "contributions": [
+      "Contrastive Semantic Rectification (CSR) module with adaptive token gating.",
+      "Margin-Constrained Calibration (MCC) loss with entropy-regularized probability margin penalties.",
+      "Comprehensive multi-dataset (AG News, SST-2, IMDb) and multi-metric benchmark evaluation on GPU."
+    ],
+    "datasets": ["ag_news", "sst2", "imdb"],
+    "metrics": ["Accuracy (%)", "Macro-F1 (%)", "ECE (%)", "Latency (ms)", "Throughput (samples/s)"],
+    "hardware_requirements": {"device": "CUDA GPU", "minimum_vram_gb": 8}
+  },
+  "tables": {
+    "table_1": {
+      "ag_news": {
+        "TextCNN": {"accuracy": 91.12, "macro_f1": 91.05, "ece": 4.82},
+        "BiLSTM-Attn": {"accuracy": 92.35, "macro_f1": 92.28, "ece": 5.34},
+        "Transformer": {"accuracy": 93.40, "macro_f1": 93.32, "ece": 4.15},
+        "CSR-Net (Ours)": {"accuracy": 95.12, "macro_f1": 95.06, "ece": 2.18}
+      },
+      "sst2": {
+        "TextCNN": {"accuracy": 85.20, "macro_f1": 85.12, "ece": 6.74},
+        "BiLSTM-Attn": {"accuracy": 86.85, "macro_f1": 86.78, "ece": 7.20},
+        "Transformer": {"accuracy": 88.30, "macro_f1": 88.22, "ece": 5.92},
+        "CSR-Net (Ours)": {"accuracy": 91.45, "macro_f1": 91.38, "ece": 3.05}
+      },
+      "imdb": {
+        "TextCNN": {"accuracy": 87.65, "macro_f1": 87.58, "ece": 6.12},
+        "BiLSTM-Attn": {"accuracy": 89.10, "macro_f1": 89.04, "ece": 6.85},
+        "Transformer": {"accuracy": 90.75, "macro_f1": 90.68, "ece": 5.40},
+        "CSR-Net (Ours)": {"accuracy": 93.80, "macro_f1": 93.74, "ece": 2.64}
+      }
+    },
+    "table_2": {
+      "TextCNN": {"params_m": 3.42, "flops_g": 0.45, "latency_ms": 1.85, "throughput": 2850},
+      "BiLSTM-Attn": {"params_m": 6.85, "flops_g": 0.98, "latency_ms": 3.40, "throughput": 1620},
+      "Transformer": {"params_m": 14.15, "flops_g": 1.84, "latency_ms": 4.75, "throughput": 1240},
+      "CSR-Net (Ours)": {"params_m": 16.82, "flops_g": 2.15, "latency_ms": 5.45, "throughput": 1080}
+    },
+    "table_3": {
+      "(a) Baseline (Transformer)": {"csr": false, "mcc": false, "temp": false, "accuracy": 88.30, "macro_f1": 88.22, "ece": 5.92},
+      "(b) + CSR Module": {"csr": true, "mcc": false, "temp": false, "accuracy": 90.25, "macro_f1": 90.18, "ece": 4.88},
+      "(c) + MCC Loss": {"csr": false, "mcc": true, "temp": false, "accuracy": 89.10, "macro_f1": 89.02, "ece": 3.75},
+      "(d) CSR + MCC": {"csr": true, "mcc": true, "temp": false, "accuracy": 91.18, "macro_f1": 91.10, "ece": 3.20},
+      "(e) Full CSR-Net": {"csr": true, "mcc": true, "temp": true, "accuracy": 91.45, "macro_f1": 91.38, "ece": 3.05}
+    }
+  }
+}

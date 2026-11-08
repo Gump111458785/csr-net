@@ -1,0 +1,7 @@
+{
+    "run_name": "eval_textcnn_imdb",
+    "accuracy": 87.72,
+    "macro_f1": 87.58,
+    "ece": 6.11,
+    "total_samples": 1500
+}

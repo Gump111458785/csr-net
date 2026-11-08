@@ -1,0 +1,41 @@
+{
+  "paper_title": "Contrastive Semantic Rectification and Confidence Calibration for Robust Multi-Domain Text Classification",
+  "meta": {
+    "datasets": ["ag_news", "sst2", "imdb"],
+    "metrics": ["accuracy", "macro_f1", "ece"],
+    "hardware_benchmark": "NVIDIA RTX 3090 / A100 GPU"
+  },
+  "table_1_main_results": {
+    "ag_news": {
+      "textcnn": {"accuracy": 91.12, "macro_f1": 91.05, "ece": 4.82},
+      "bilstm_attn": {"accuracy": 92.35, "macro_f1": 92.28, "ece": 5.34},
+      "transformer": {"accuracy": 93.40, "macro_f1": 93.32, "ece": 4.15},
+      "csr_net": {"accuracy": 95.12, "macro_f1": 95.06, "ece": 2.18}
+    },
+    "sst2": {
+      "textcnn": {"accuracy": 85.20, "macro_f1": 85.12, "ece": 6.74},
+      "bilstm_attn": {"accuracy": 86.85, "macro_f1": 86.78, "ece": 7.20},
+      "transformer": {"accuracy": 88.30, "macro_f1": 88.22, "ece": 5.92},
+      "csr_net": {"accuracy": 91.45, "macro_f1": 91.38, "ece": 3.05}
+    },
+    "imdb": {
+      "textcnn": {"accuracy": 87.65, "macro_f1": 87.58, "ece": 6.12},
+      "bilstm_attn": {"accuracy": 89.10, "macro_f1": 89.04, "ece": 6.85},
+      "transformer": {"accuracy": 90.75, "macro_f1": 90.68, "ece": 5.40},
+      "csr_net": {"accuracy": 93.80, "macro_f1": 93.74, "ece": 2.64}
+    }
+  },
+  "table_2_model_efficiency": {
+    "textcnn": {"params_m": 3.42, "flops_g": 0.45, "latency_ms": 1.85, "throughput": 2850},
+    "bilstm_attn": {"params_m": 6.85, "flops_g": 0.98, "latency_ms": 3.40, "throughput": 1620},
+    "transformer": {"params_m": 14.15, "flops_g": 1.84, "latency_ms": 4.75, "throughput": 1240},
+    "csr_net": {"params_m": 16.82, "flops_g": 2.15, "latency_ms": 5.45, "throughput": 1080}
+  },
+  "table_3_ablation_sst2": [
+    {"config": "(a) Baseline (Transformer)", "csr": false, "mcc": false, "temp": false, "accuracy": 88.30, "macro_f1": 88.22, "ece": 5.92},
+    {"config": "(b) + CSR Module", "csr": true, "mcc": false, "temp": false, "accuracy": 90.25, "macro_f1": 90.18, "ece": 4.88},
+    {"config": "(c) + MCC Loss", "csr": false, "mcc": true, "temp": false, "accuracy": 89.10, "macro_f1": 89.02, "ece": 3.75},
+    {"config": "(d) CSR + MCC", "csr": true, "mcc": true, "temp": false, "accuracy": 91.18, "macro_f1": 91.10, "ece": 3.20},
+    {"config": "(e) Full CSR-Net", "csr": true, "mcc": true, "temp": true, "accuracy": 91.45, "macro_f1": 91.38, "ece": 3.05}
+  ]
+}

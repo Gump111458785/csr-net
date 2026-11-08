@@ -1,0 +1,7 @@
+{
+    "run_name": "eval_bilstm_attn_ag_news",
+    "accuracy": 92.2,
+    "macro_f1": 92.41,
+    "ece": 5.38,
+    "total_samples": 3000
+}

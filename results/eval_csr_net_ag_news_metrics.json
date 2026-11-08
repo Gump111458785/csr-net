@@ -1,0 +1,7 @@
+{
+    "run_name": "eval_csr_net_ag_news",
+    "accuracy": 95.09,
+    "macro_f1": 95.08,
+    "ece": 2.18,
+    "total_samples": 3000
+}

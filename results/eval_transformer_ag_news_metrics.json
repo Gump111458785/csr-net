@@ -1,0 +1,7 @@
+{
+    "run_name": "eval_transformer_ag_news",
+    "accuracy": 93.36,
+    "macro_f1": 93.27,
+    "ece": 4.15,
+    "total_samples": 3000
+}

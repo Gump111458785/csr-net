@@ -1,0 +1,7 @@
+{
+    "run_name": "eval_bilstm_attn_sst2",
+    "accuracy": 86.76,
+    "macro_f1": 86.9,
+    "ece": 7.27,
+    "total_samples": 1500
+}
