@@ -8,6 +8,7 @@ import argparse
 import random
 import numpy as np
 import torch
+import torch.nn as nn
 import torch.optim as optim
 from torch.cuda.amp import GradScaler, autocast
 
@@ -41,8 +42,8 @@ def main():
     parser.add_argument("--weight_decay", type=float, default=1e-4)
     parser.add_argument("--use_csr", action="store_true", default=True)
     parser.add_argument("--no_csr", dest="use_csr", action="store_false")
-    parser.add_argument("--use_mcc", action="store_true", default=True)
-    parser.add_argument("--no_mcc", dest="use_mcc", action="store_false")
+    parser.add_argument("--use_mcc", dest="use_mcc", action="store_true", default=None, help="Explicitly enable MCC Loss")
+    parser.add_argument("--no_mcc", dest="use_mcc", action="store_false", help="Explicitly disable MCC Loss")
     parser.add_argument("--use_temp_scale", action="store_true", default=True)
     parser.add_argument("--no_temp_scale", dest="use_temp_scale", action="store_false")
     parser.add_argument("--seed", type=int, default=42)
@@ -75,6 +76,14 @@ def main():
         batch_size=args.batch_size,
     )
 
+    # Resolution of MCC Loss for Baselines and Ablation:
+    # Baseline models (TextCNN, BiLSTM-Attn, Transformer) and non-MCC ablation variants
+    # strictly use standard nn.CrossEntropyLoss unless explicitly overridden.
+    if args.use_mcc is None:
+        use_mcc = (args.model == "csr_net")
+    else:
+        use_mcc = args.use_mcc
+
     print(f"[Model] Building '{args.model}' (CSR={args.use_csr}, TempScale={args.use_temp_scale})...")
     model = build_model(
         model_name=args.model,
@@ -84,7 +93,13 @@ def main():
         use_temp_scale=args.use_temp_scale,
     ).to(device)
 
-    criterion = MarginConstrainedCalibrationLoss(smoothing=0.05, cal_weight=0.15, use_mcc=args.use_mcc).to(device)
+    if use_mcc:
+        print("[Loss Objective] Employing Margin-Constrained Calibration (MCC) Loss.")
+        criterion = MarginConstrainedCalibrationLoss(smoothing=0.05, cal_weight=0.15, use_mcc=True).to(device)
+    else:
+        print("[Loss Objective] Employing Standard Cross-Entropy Loss (nn.CrossEntropyLoss) for baseline / ablation.")
+        criterion = nn.CrossEntropyLoss().to(device)
+
     optimizer = optim.AdamW(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
     scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=args.epochs, eta_min=1e-6)
     scaler = GradScaler(enabled=(device.type == "cuda"))

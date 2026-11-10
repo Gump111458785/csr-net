@@ -1,7 +1,0 @@
-{
-    "run_name": "eval_transformer_sst2",
-    "accuracy": 88.21,
-    "macro_f1": 88.19,
-    "ece": 5.99,
-    "total_samples": 1500
-}

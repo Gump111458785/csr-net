@@ -1,7 +1,0 @@
-{
-    "run_name": "eval_csr_net_imdb",
-    "accuracy": 93.91,
-    "macro_f1": 93.87,
-    "ece": 2.65,
-    "total_samples": 1500
-}

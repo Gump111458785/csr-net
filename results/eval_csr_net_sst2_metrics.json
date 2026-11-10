@@ -1,7 +1,0 @@
-{
-    "run_name": "eval_csr_net_sst2",
-    "accuracy": 91.46,
-    "macro_f1": 91.5,
-    "ece": 3.1,
-    "total_samples": 1500
-}

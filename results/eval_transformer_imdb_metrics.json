@@ -1,7 +1,0 @@
-{
-    "run_name": "eval_transformer_imdb",
-    "accuracy": 90.8,
-    "macro_f1": 90.82,
-    "ece": 5.39,
-    "total_samples": 1500
-}

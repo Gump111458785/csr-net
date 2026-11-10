@@ -1,7 +1,0 @@
-{
-    "run_name": "eval_bilstm_attn_imdb",
-    "accuracy": 89.06,
-    "macro_f1": 89.18,
-    "ece": 6.83,
-    "total_samples": 1500
-}

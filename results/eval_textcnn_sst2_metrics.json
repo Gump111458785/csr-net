@@ -1,7 +1,0 @@
-{
-    "run_name": "eval_textcnn_sst2",
-    "accuracy": 85.09,
-    "macro_f1": 85.05,
-    "ece": 6.72,
-    "total_samples": 1500
-}
