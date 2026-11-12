@@ -37,7 +37,7 @@ def download_file(url: str, dest_path: str, timeout: int = 60) -> bool:
 
     # First attempt using curl (robust with system proxies and large files)
     try:
-        cmd = ["curl", "-sSL", "--connect-timeout", "15", "-o", dest_path, url]
+        cmd = ["curl", "-k", "-sSL", "--connect-timeout", "15", "-o", dest_path, url]
         proxy = os.environ.get("https_proxy") or os.environ.get("http_proxy")
         if proxy:
             cmd.extend(["-x", proxy])
@@ -50,9 +50,11 @@ def download_file(url: str, dest_path: str, timeout: int = 60) -> bool:
 
     # Fallback to urllib.request
     try:
+        import ssl
+        ctx = ssl._create_unverified_context()
         headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
         req = urllib.request.Request(url, headers=headers)
-        with urllib.request.urlopen(req, timeout=timeout) as resp, open(dest_path, "wb") as f:
+        with urllib.request.urlopen(req, timeout=timeout, context=ctx) as resp, open(dest_path, "wb") as f:
             while True:
                 chunk = resp.read(64 * 1024)
                 if not chunk:
@@ -202,6 +204,16 @@ def prepare_imdb(target_dir: str) -> bool:
     print(f"  -> Generated {test_out} ({len(test_records)} authentic records)")
 
     return True
+
+
+def verify_dataset(dataset_name: str, root_dir: str = "./data/cache") -> bool:
+    """Check whether preprocessed train.jsonl and test.jsonl exist for the given dataset."""
+    target_dir = os.path.join(root_dir, dataset_name.lower())
+    if not os.path.isdir(target_dir):
+        return False
+    train_file = os.path.join(target_dir, "train.jsonl")
+    test_file = os.path.join(target_dir, "test.jsonl")
+    return os.path.exists(train_file) and os.path.exists(test_file)
 
 
 def download_dataset(dataset_name: str, root_dir: str = "./data/cache") -> bool:

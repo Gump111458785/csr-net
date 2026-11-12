@@ -1,0 +1,16 @@
+# Dataset cache (downloaded at runtime via scripts/download_data.sh)
+data/cache/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Checkpoints and outputs
+checkpoints*/
+outputs/
+*.pt
+*.pth
+
+# OS
+.DS_Store
